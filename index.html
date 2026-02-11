@@ -17,10 +17,10 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(135deg, #FFDDE1, #FEE3E6); /* Soft pink gradient */
-            font-family: 'Dancing Script', cursive; /* Elegant font */
+            background: linear-gradient(135deg, #FFDDE1, #FEE3E6);
+            font-family: 'Dancing Script', cursive;
             color: #4A4A4A;
-            overflow: hidden; /* Prevent scroll */
+            overflow: hidden;
         }
         .container {
             text-align: center;
@@ -30,16 +30,12 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
             max-width: 90%;
-            opacity: 0; /* Hidden initially */
-            transform: scale(0.9);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-        }
-        .container.show {
             opacity: 1;
             transform: scale(1);
+            transition: opacity 1s ease-out, transform 1s ease-out;
         }
         h1 {
-            color: #E91E63; /* Deep pink for heading */
+            color: #E91E63;
             font-size: 3em;
             margin-bottom: 20px;
         }
@@ -49,7 +45,7 @@
             margin-bottom: 30px;
         }
         .play-button {
-            background: #E91E63; /* Pink button */
+            background: #E91E63;
             color: white;
             padding: 15px 30px;
             border: none;
@@ -58,8 +54,8 @@
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease;
             box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
-            display: block; /* Make it block to center */
-            margin: 20px auto 0; /* Center the button */
+            display: block;
+            margin: 20px auto 0;
         }
         .play-button:hover {
             background: #D81B60;
@@ -67,12 +63,11 @@
         }
         .heart {
             position: absolute;
-            background: #FF69B4; /* Hot pink hearts */
+            background: #FF69B4;
             transform: rotate(-45deg);
             animation: floatHeart 6s infinite ease-in-out;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 0.5s ease;
         }
         .heart::before, .heart::after {
             content: '';
@@ -82,14 +77,9 @@
             width: 100%;
             height: 100%;
         }
-        .heart::before {
-            top: -50%;
-            left: 0;
-        }
-        .heart::after {
-            left: 50%;
-            top: 0;
-        }
+        .heart::before { top: -50%; left: 0; }
+        .heart::after { left: 50%; top: 0; }
+
         @keyframes floatHeart {
             0% { transform: translateY(0) rotate(-45deg); opacity: 0; }
             50% { opacity: 1; }
@@ -98,69 +88,60 @@
     </style>
 </head>
 <body>
+
     <audio id="backgroundMusic" loop>
         <source src="https://files.catbox.moe/p91z89.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
     <div class="container" id="messageContainer">
-        <h1>Hey Nizar, For You ❤️</h1>
-        <p id="mainMessage" style="display: none;">
-            Wanna run away together? <br>
-            I just want you to remember how strong you are.
-            Even when things feel hard, you keep going. I believe in you, and I'm proud of you. Don't give up
-            you're closer than you think 🥹  Hand in hand. You & me.
-            Today, tomorrow, forever<br><br>
-            <span style="font-size: 0.7em; opacity: 0.6;">fuck u hhhhh</span>
-        </p>
-        <div id="introText">
-            <p>You have a special message waiting for you...</p>
+        <div id="introArea">
+            <h1>Hey Nizar ❤️</h1>
+            <p>I have a special message for you...</p>
+            <button class="play-button" onclick="playMusicAndShowHearts()">Open Surprise ✨</button>
         </div>
-        <button class="play-button" id="actionBtn" onclick="playMusicAndShowHearts()">Open Surprise ✨</button>
+        
+        <div id="secretMessage" style="display: none;">
+            <h1>For You ❤️</h1>
+            <p>
+                Wanna run away together? <br>
+                I just want u to remember how strong u are.
+                Even when things feel hard, u keep going. I believe in u, and I'm proud of u. Don't give up
+                you're closer than u think 🥹. Hand in hand. You & me 
+                Today, tomorrow, forever<br><br>
+                <span style="font-size: 0.7em; opacity: 0.6;">fuck u hhhhh</span>
+            </p>
+        </div>
     </div>
 
     <script>
         const music = document.getElementById('backgroundMusic');
-        const messageContainer = document.getElementById('messageContainer');
-        const mainMessage = document.getElementById('mainMessage');
-        const introText = document.getElementById('introText');
-        const actionBtn = document.getElementById('actionBtn');
-        let heartsInterval;
+        const introArea = document.getElementById('introArea');
+        const secretMessage = document.getElementById('secretMessage');
 
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
-            const size = Math.random() * 20 + 15;
+            const size = Math.random() * 20 + 20;
             heart.style.width = size + 'px';
             heart.style.height = size + 'px';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.top = '100vh';
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
+            setTimeout(() => { heart.remove(); }, 6000);
         }
 
         function playMusicAndShowHearts() {
-            music.play();
-            introText.style.display = 'none';
-            mainMessage.style.display = 'block';
-            actionBtn.style.display = 'none';
-            
-            messageContainer.classList.add('show');
+            // محاولة تشغيل الموسيقى
+            music.play().catch(error => {
+                console.log("Music play failed:", error);
+                alert("Please try to click again to play music!");
+            });
 
-            // Start showing hearts
-            heartsInterval = setInterval(createHeart, 300);
+            introArea.style.display = 'none';
+            secretMessage.style.display = 'block';
+            setInterval(createHeart, 300);
         }
-
-        window.onload = () => {
-             messageContainer.style.opacity = 1;
-             messageContainer.style.transform = 'scale(1)';
-        };
     </script>
 </body>
 </html>
-
-           
-
