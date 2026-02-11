@@ -1,73 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <head>
     <meta charset="UTF-8">
-    <meta property="og:title" content="Surprise! 🎁">
-    <meta property="og:description" content="Open this link to see your message...">
-    <meta property="og:image" content="https://via.placeholder.com/150">
-    <title>For You ❤️</title>
-    <title>For You ❤️</title>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message For You ❤️</title>
+
+    <meta property="og:title" content="A Secret Message! 🤫">
+    <meta property="og:description" content="Tap to reveal a heartfelt surprise! ✨">
+    <meta property="og:image" content="https://i.imgur.com/G4h1mCj.png"> <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
         body {
-            background: linear-gradient(135deg, #ffdde1, #151515);
-            font-family: Arial, sans-serif;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            background: linear-gradient(135deg, #FFDDE1, #FEE3E6); /* Soft pink gradient */
+            font-family: 'Dancing Script', cursive; /* Elegant font */
+            color: #4A4A4A;
+            overflow: hidden; /* Prevent scroll */
         }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
+        .container {
             text-align: center;
-            max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            max-width: 90%;
+            opacity: 0; /* Hidden initially */
+            transform: scale(0.9);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .container.show {
+            opacity: 1;
+            transform: scale(1);
         }
         h1 {
-            color: #131212;
+            color: #E91E63; /* Deep pink for heading */
+            font-size: 3em;
+            margin-bottom: 20px;
         }
         p {
-            font-size: 18px;
-            color: #333;
+            font-size: 1.5em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .play-button {
+            background: #E91E63; /* Pink button */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+            display: block; /* Make it block to center */
+            margin: 20px auto 0; /* Center the button */
+        }
+        .play-button:hover {
+            background: #D81B60;
+            transform: translateY(-3px);
         }
         .heart {
-            font-size: 40px;
-            margin-top: 15px;
+            position: absolute;
+            background: #FF69B4; /* Hot pink hearts */
+            transform: rotate(-45deg);
+            animation: floatHeart 6s infinite ease-in-out;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .heart::before, .heart::after {
+            content: '';
+            background: #FF69B4;
+            border-radius: 50%;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+        .heart::after {
+            left: 50%;
+            top: 0;
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(0) rotate(-45deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-200px) rotate(-45deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-ukulele.mp3" type="audio/mpeg">
+        <source src="https://www.dl.dropboxusercontent.com/s/z7x0f1w5j0j3x0h/bensound-ukulele.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-<div class="card">
-    <h1>Hey Nizvr ❤️</h1>
-    <p>
-        wanna run away together?
-        small letter for you
-        I just want you to remember how strong you are.
-Even when things feel hard, you keep going.
-I believe in you, and I’m proud of you.
-Don’t give up 🫶🏼you’re closer than you think 🤍 fuck u hhhhh
+    <div class="container" id="messageContainer">
+        <h1>Hey Nizar, For You ❤️</h1>
+        <p>
+            Wanna run away together? 
+            
+            Small letter for u I just want u to remember how strong u are
+            Even when things feel hard, you keep going. I believe in u, and I'm proud of u, Don't give up
+            you're closer than u think 🥹 fuck u hhhhh
+            Hand in hand. You and me.
+            Today , tomorrow, forever ;(
+        </p>
+        <button class="play-button" onclick="playMusicAndShowHearts()">Play Music & See Hearts ✨</button>
+    </div>
 
-    </p>
-    <div class="heart">💖</div>
-</div>
-<audio autoplay loop>
-    <source src="love.mp3" type="audio/mpeg">
-</audio>
+    <script>
+        const music = document.getElementById('backgroundMusic');
+        const messageContainer = document.getElementById('messageContainer');
+        let heartsInterval;
 
+        // Function to create and animate hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            const size = Math.random() * 20 + 20; // Size between 20px and 40px
+            heart.style.width = size + 'px';
+            heart.style.height = size + 'px';
+            heart.style.left = Math.random() * 100 + 'vw'; // Random horizontal position
+            heart.style.top = '100vh'; // Start from bottom
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 6000); // Remove heart after its animation
+        }
+
+        // Function to play music and show the message container with hearts
+        function playMusicAndShowHearts() {
+            music.play();
+            messageContainer.classList.add('show'); // Show the message
+            document.querySelector('.play-button').style.display = 'none'; // Hide the button
+
+            // Start showing hearts
+            heartsInterval = setInterval(createHeart, 300); // Create a heart every 300ms
+        }
+
+        // Show the initial button
+        window.onload = () => {
+             messageContainer.style.opacity = 1; // Make the button visible initially
+             messageContainer.style.transform = 'scale(1)';
+        };
+
+    </script>
 </body>
 </html>
-<audio id="music" loop>
-    <source src="love.mp3" type="audio/mpeg">
-</audio>
 
-<button onclick="document.getElementById('music').play()"
-style="border:none;background:#ff6b81;color:white;
-padding:10px 20px;border-radius:20px;cursor:pointer;">
-Play Music 🎵
-</button>
 
 
