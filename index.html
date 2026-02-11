@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Special Message For You ❤️</title>
-
-    <meta property="og:title" content="A Secret Message! 🤫">
-    <meta property="og:description" content="Tap to reveal a heartfelt surprise! ✨">
-    <meta property="og:image" content="https://i.imgur.com/G4h1mCj.png"> 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
         body {
@@ -29,19 +25,9 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
             max-width: 90%;
-            opacity: 1;
-            transform: scale(1);
         }
-        h1 {
-            color: #E91E63;
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-        p {
-            font-size: 1.5em;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
+        h1 { color: #E91E63; font-size: 3em; margin-bottom: 20px; }
+        p { font-size: 1.5em; line-height: 1.6; margin-bottom: 30px; }
         .play-button {
             background: #E91E63;
             color: white;
@@ -50,14 +36,7 @@
             border-radius: 50px;
             font-size: 1.2em;
             cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
             box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
-            display: block;
-            margin: 20px auto 0;
-        }
-        .play-button:hover {
-            background: #D81B60;
-            transform: translateY(-3px);
         }
         .heart {
             position: absolute;
@@ -68,12 +47,8 @@
             opacity: 0;
         }
         .heart::before, .heart::after {
-            content: '';
-            background: #FF69B4;
-            border-radius: 50%;
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            content: ''; background: #FF69B4; border-radius: 50%;
+            position: absolute; width: 100%; height: 100%;
         }
         .heart::before { top: -50%; left: 0; }
         .heart::after { left: 50%; top: 0; }
@@ -86,9 +61,8 @@
 </head>
 <body>
 
-    <audio id="backgroundMusic" loop>
-        <source src="https://www.dropbox.com/scl/fi/v66b0266y788e0h022m70/Blue-Love.mp3?rlkey=26p553t6vsqh61427v7y7v24j&st=v8v3o58o&dl=1" type="audio/mpeg">
-        Your browser does not support the audio element.
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="https://files.catbox.moe/p91z89.mp3" type="audio/mpeg">
     </audio>
 
     <div class="container" id="messageContainer">
@@ -101,12 +75,12 @@
         <div id="secretMessage" style="display: none;">
             <h1>For You ❤️</h1>
             <p>
-                Wanna run away together? Small letter for you I just want you to remember how strong you are.
-                Even when things feel hard, you keep going. I believe in you, and I'm proud of you. Don't give up
-                you're closer than you think 🥹 fuck u hhhhh
+                Wanna run away together? Small letter for u I just want u to remember how strong u are.
+                Even when things feel hard, you keep going. I believe in u, and I'm proud of you. Don't give up
+                you're closer than you think 🥹 . Hand in hand. You & me .
+                Today, tomorrow, frever .<br><br>
+                <span style="font-size: 0.8em; opacity: 0.6;">fuck u hhhhh</span>
             </p>
-            <span style="font-size: 0.7em; opacity: 0.6;">fuck u hhhhh</span>
-        </p>
         </div>
     </div>
 
@@ -116,15 +90,16 @@
             const introArea = document.getElementById('introArea');
             const secretMessage = document.getElementById('secretMessage');
 
-            // تشغيل الموسيقى
-            music.play().catch(error => console.log("Playback failed:", error));
+            // محاولة تشغيل الموسيقى مع معالجة الخطأ إذا حدث
+            music.play().then(() => {
+                console.log("Music is playing!");
+            }).catch(error => {
+                console.log("Playback failed. Error:", error);
+            });
 
-            // تبديل الواجهة
             introArea.style.display = 'none';
             secretMessage.style.display = 'block';
-
-            // ابداي القلوب
-            setInterval(createHeart, 300);
+            setInterval(createHeart, 300 );
         }
 
         function createHeart() {
@@ -136,11 +111,8 @@
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.top = '100vh';
             document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
+            setTimeout(() => { heart.remove(); }, 6000);
         }
     </script>
 </body>
-</html> 
+</html>
